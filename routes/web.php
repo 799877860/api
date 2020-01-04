@@ -21,6 +21,9 @@ Route::get('info',function(){
 
 Route::get('test/pay','TestController@alipay');     // 去支付
 
+Route::get('test/accii','TestController@accii');    // 加密
+Route::get('test/dec','TestController@dec');    // 加密
+
 Route::get('test/alipay/return','Alipay\PayController@aliReturn');
 Route::post('test/alipay/notify','Alipay\PayController@notify');
 

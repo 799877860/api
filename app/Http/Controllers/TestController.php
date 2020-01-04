@@ -48,7 +48,9 @@ class TestController extends Controller
         ];
 
         $url = 'http://openapi.alipaydev.com/gateway.do?';
-        echo '<pre>';print_r($param);echo '</pre>';
+        echo '<pre>';
+        print_r($param);
+        echo '</pre>';
         // 字典排序
         ksort($param);
 
@@ -79,6 +81,49 @@ class TestController extends Controller
         //发送GET请求
         //echo $url;die;
         header("Location:" . $url);
+    }
 
+    /**
+     * 加密
+     */
+    public function accii()
+    {
+        $char = 'Hello World';
+        $lengh = strlen($char);
+        echo $lengh;echo "<hr>";
+
+        $pass = "";
+        for($i=0;$i<$lengh;$i++)
+        {
+            echo $char[$i] . " >>>> " . ord($char[$i]);echo "</br>";
+            $ord = ord($char[$i])+3;
+            $chr = chr($ord);
+            echo $char[$i] . " >>>> " . $ord . ' >>>> ' . $chr;echo "<hr>";
+            $pass .= $chr;
+        }
+
+        echo $pass;
+    }
+
+    /**
+     * 解密
+     */
+    public function dec()
+    {
+        $enc = "Khoor#Zruog";
+        echo "密文： " . $enc;echo "<hr>";
+        $lengh = strlen($enc);
+
+        $pass = "";
+        for($i=0;$i<$lengh;$i++)
+        {
+            echo $enc[$i] . " >>>> " . ord($enc[$i]);echo "</br>";
+            $ord = ord($enc[$i])-3;
+            $chr = chr($ord);
+            echo $enc[$i] . " >>>> " . $ord . ' >>>> ' . $chr;echo "<hr>";
+            $pass .= $chr;
+        }
+
+        echo "解密： " . $pass;
     }
 }
