@@ -14,7 +14,7 @@ class TestController extends Controller
      * @param Request $request
      * 用户注册
      */
-    public function reg(Request $request)
+    public function reg0(Request $request)
     {
         echo '<pre>';
         print_r($request->input());
@@ -47,7 +47,7 @@ class TestController extends Controller
      * @param Request $request
      * @return array
      */
-    public function login(Request $request)
+    public function login0(Request $request)
     {
         $name = $request->input('name');
         $pass = $request->input('pass');
@@ -60,23 +60,23 @@ class TestController extends Controller
                 // 生成token
                 $token    = Str::random(32);
                 $response = [
-                    'errno' => 0,
-                    'msg'   => '登录成功',
+                    'err_num' => 0,
+                    'err_msg'   => '登录成功',
                     'data'  => [
                         'token' => $token
                     ]
                 ];
             }else {
                 $response = [
-                    'errno' => 40003,
-                    'msg'   => '密码不正确'
+                    'err_num' => 40003,
+                    'err_msg'   => '密码不正确'
                 ];
             }
 
         }else {
             $response = [
-                'errno' => 40004,
-                'msg'   => '没有此用户'
+                'err_num' => 40004,
+                'err_msg'   => '没有此用户'
             ];
         }
 
@@ -92,4 +92,53 @@ class TestController extends Controller
         $list = UserModel::all();
         echo '<pre>';print_r($list->toArray());echo '</pre>';
     }
+
+    /**
+     * APP注册
+     * @return bool|string
+     */
+    public function reg()
+    {
+        //请求passport
+        $url = 'http://passport.1905.com/user/reg';
+        $response = UserModel::curlPost($url,$_POST);
+        return $response;
+    }
+    /**
+     * APP 登录
+     */
+    public function login()
+    {
+        //请求passport
+        $url = 'http://passport.1905.com/user/login';
+        $response = UserModel::curlPost($url,$_POST);
+        return $response;
+    }
+    public function showData()
+    {
+        // 收到 token
+        $uid = $_SERVER['HTTP_UID'];
+        $token = $_SERVER['HTTP_TOKEN'];
+        // 请求passport鉴权
+        $url = 'http://passport.1905.com/api/auth';         //鉴权接口
+        $response = UserModel::curlPost($url,['uid'=>$uid,'token'=>$token]);
+        $status = json_decode($response,true);
+        //处理鉴权结果
+        if($status['err_num']==0)     //鉴权通过
+        {
+            $data = "sdlfkjsldfkjsdlf";
+            $response = [
+                'err_num' => 0,
+                'err_msg'   => 'ok',
+                'data'  => $data
+            ];
+        }else{          //鉴权失败
+            $response = [
+                'err_num' => 40003,
+                'err_msg'   => '授权失败'
+            ];
+        }
+        return $response;
+    }
+
 }
