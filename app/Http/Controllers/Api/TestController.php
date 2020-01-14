@@ -126,7 +126,7 @@ class TestController extends Controller
         //处理鉴权结果
         if($status['err_num']==0)     //鉴权通过
         {
-            $data = "sdlfkjsldfkjsdlf";
+            $data = "wenlafaxin";
             $response = [
                 'err_num' => 0,
                 'err_msg'   => 'ok',
