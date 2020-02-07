@@ -19,6 +19,13 @@ Route::get('info',function(){
     phpinfo();
 });
 
+//////////////////////////  TEST  //////////////////////////////
+Route::get('/test/sign2','Api\TestController@sign2');
+
+
+
+//////////////////////////  TEST  //////////////////////////////
+
 Route::get('test/pay','TestController@alipay');     // 去支付
 
 Route::get('test/accii','TestController@accii');    // 加密
