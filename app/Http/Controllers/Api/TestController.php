@@ -114,13 +114,14 @@ class TestController extends Controller
         $response = UserModel::curlPost($url,$_POST);
         return $response;
     }
+
     public function showData()
     {
         // 收到 token
         $uid = $_SERVER['HTTP_UID'];
         $token = $_SERVER['HTTP_TOKEN'];
         // 请求passport鉴权
-        $url = 'http://passport.1905.com/api/auth';         //鉴权接口
+        $url = 'http://passport.1905.com/user/auth';         //鉴权接口
         $response = UserModel::curlPost($url,['uid'=>$uid,'token'=>$token]);
         $status = json_decode($response,true);
         //处理鉴权结果
@@ -142,37 +143,44 @@ class TestController extends Controller
     }
 
     /**
-     * 接口防刷
+     * 接口test
      */
     public function postman()
     {
-        //获取用户标识
-        $token = $_SERVER['HTTP_TOKEN'];
-        // 当前url
-        $request_uri = $_SERVER['REQUEST_URI'];
+//        //获取用户标识
+//        $token = $_SERVER['HTTP_TOKEN'];
+//        // 当前url
+//        $request_uri = $_SERVER['REQUEST_URI'];
+//
+//        $url_hash = md5($token . $request_uri);
+//
+//
+//        //echo 'url_hash: ' .  $url_hash;echo '</br>';
+//        $key = 'count:url:'.$url_hash;
+//        //echo 'Key: '.$key;echo '</br>';
+//
+//        //检查 次数是否已经超过限制
+//        $count = Redis::get($key);
+//        echo "当前接口访问次数为：". $count;echo '</br>';
+//
+//        if($count >= 5){
+//            $time = 10;     // 时间秒
+//            echo "请勿频繁请求接口, $time 秒后重试";
+//            Redis::expire($key,$time);
+//            die;
+//        }
+//
+//        // 访问数 +1
+//        $count = Redis::incr($key);
+//        echo 'count: '.$count;
 
-        $url_hash = md5($token . $request_uri);
+        $data = [
+            'user_name' => 'XXX',
+            'email'     => 'XXX @qq.com',
+            'amount'    => 10000
+        ];
 
-
-        //echo 'url_hash: ' .  $url_hash;echo '</br>';
-        $key = 'count:url:'.$url_hash;
-        //echo 'Key: '.$key;echo '</br>';
-
-        //检查 次数是否已经超过限制
-        $count = Redis::get($key);
-        echo "当前接口访问次数为：". $count;echo '</br>';
-
-        if($count >= 5){
-            $time = 10;     // 时间秒
-            echo "请勿频繁请求接口, $time 秒后重试";
-            Redis::expire($key,$time);
-            die;
-        }
-
-        // 访问数 +1
-        $count = Redis::incr($key);
-        echo 'count: '.$count;
-
+        echo json_encode($data);
     }
 
 }

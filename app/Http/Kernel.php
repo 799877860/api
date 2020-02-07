@@ -3,6 +3,7 @@
 namespace App\Http;
 
 use App\Http\Middleware\filter;
+use App\Http\Middleware\CheckToken;
 use Illuminate\Foundation\Http\Kernel as HttpKernel;
 
 class Kernel extends HttpKernel
@@ -63,7 +64,8 @@ class Kernel extends HttpKernel
         'throttle' => \Illuminate\Routing\Middleware\ThrottleRequests::class,
         'verified' => \Illuminate\Auth\Middleware\EnsureEmailIsVerified::class,
 
-        'filter'   => filter::class     // 接口防刷过滤
+        'filter'   => filter::class,       // 接口防刷过滤
+        'check.token'   => CheckToken::class     // 鉴权 & 验证token是否有效
     ];
 
     /**
